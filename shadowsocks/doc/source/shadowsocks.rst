@@ -16,96 +16,108 @@ shadowsocks\.asyncdns module
 
 .. automodule:: shadowsocks.asyncdns
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.common module
 --------------------------
 
 .. automodule:: shadowsocks.common
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.daemon module
 --------------------------
 
 .. automodule:: shadowsocks.daemon
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.encrypt module
 ---------------------------
 
 .. automodule:: shadowsocks.encrypt
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.eventloop module
 -----------------------------
 
 .. automodule:: shadowsocks.eventloop
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.local module
 -------------------------
 
 .. automodule:: shadowsocks.local
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.lru\_cache module
 ------------------------------
 
 .. automodule:: shadowsocks.lru_cache
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.manager module
 ---------------------------
 
 .. automodule:: shadowsocks.manager
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.server module
 --------------------------
 
 .. automodule:: shadowsocks.server
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.shell module
 -------------------------
 
 .. automodule:: shadowsocks.shell
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.tcprelay module
 ----------------------------
 
 .. automodule:: shadowsocks.tcprelay
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 shadowsocks\.udprelay module
 ----------------------------
 
 .. automodule:: shadowsocks.udprelay
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
 
 
 Module contents
@@ -113,5 +125,6 @@ Module contents
 
 .. automodule:: shadowsocks
     :members:
-    :undoc-members:
     :show-inheritance:
+    :special-members:
+    :exclude-members: __weakref__
