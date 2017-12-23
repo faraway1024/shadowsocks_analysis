@@ -25,11 +25,11 @@ import logging
 
 def compat_ord(s):
     """
-    该函数主要是将字符转换为ascii值
+    该函数主要是将字符或者byte转换为int类型的ascii值
 
     :param s: 字符
 
-    :return: ascii值
+    :return: int类型的ascii值
     """
     if type(s) == int:
         return s
@@ -57,11 +57,11 @@ chr = compat_chr
 
 def to_bytes(s):
     """
-    将字符串转为"utf-8"格式编码的字节码对象
+    将字符串转为"utf-8"格式编码的字节码对象。
 
-    :param s: 一个字符串
+    :param s: 一个字符串。
 
-    :return: 一个字节码对象
+    :return: 一个字节码对象。
     """
     if bytes != str: # 兼容python 2.x
         if type(s) == str:
@@ -71,11 +71,11 @@ def to_bytes(s):
 
 def to_str(s):
     """
-    将一个“utf-8”编码的字节码对象转为字符串
+    将一个“utf-8”编码的字节码对象转为字符串。
 
-    :param s:一个字节码对象
+    :param s: 一个字节码对象。
 
-    :return: 一个字符串
+    :return: 一个字符串。
     """
     if bytes != str:
         if type(s) == bytes:
@@ -85,13 +85,13 @@ def to_str(s):
 
 def inet_ntop(family, ipstr):
     """
-    将在网络传输中的ip字节码对象转成一个python中的字节码对象。网络传输中的ip字节码形式为b“\x00”,而python中的字节码形式为b“00”
+    将在网络传输中的ip字节码对象转成一个python中的字节码对象。网络传输中的ip字节码形式为b“\x00”,而python中的字节码形式为b“00”。
 
-    :param family: ip地址的类型，可选的参数有ipv4和ipv6
+    :param family: ip地址的类型，可选的参数有ipv4和ipv6。
 
-    :param ipstr: 在网络传输中的ip字节码对象
+    :param ipstr: 在网络传输中的ip字节码对象。
 
-    :return: ip在python中的字节码对象
+    :return: ip在python中的字节码对象。
     """
     if family == socket.AF_INET: # ipv4
         return to_bytes(socket.inet_ntoa(ipstr))
@@ -105,13 +105,13 @@ def inet_ntop(family, ipstr):
 
 def inet_pton(family, addr):
     """
-    将包含ip地址的字符串转为网络传输中的字节码对象。网络传输中的ip字节码形式为b“\x00”,而python中的字节码形式为b“00”
+    将包含ip地址的字符串转为网络传输中的字节码对象。网络传输中的ip字节码形式为b“\x00”,而python中的字节码形式为b“00”。
 
-    :param family: ip地址的类型，可选的参数有ipv4和ipv6
+    :param family: ip地址的类型，可选的参数有ipv4和ipv6。
 
-    :param addr: 一个包含ip地址的字符串
+    :param addr: 一个包含ip地址的字符串。
 
-    :return: ip在网络传输中的字节码对象
+    :return: ip在网络传输中的字节码对象。
     """
     addr = to_str(addr)
     if family == socket.AF_INET:
@@ -143,11 +143,11 @@ def inet_pton(family, addr):
 
 def is_ip(address):
     """
-    判断ip地址是属于ipv4还是ipv6
+    判断ip地址是属于ipv4还是ipv6。
 
-    :param address: 一个ip地址
+    :param address: 一个ip地址。
 
-    :return: ip地址类型，如AF_INET, AF_INET6
+    :return: ip地址类型，如AF_INET, AF_INET6。
     """
     for family in (socket.AF_INET, socket.AF_INET6):
         try:
@@ -162,9 +162,9 @@ def is_ip(address):
 
 def patch_socket():
     """
-    往socket当中添加inet_pton和inet_ntop方法
+    往socket当中添加inet_pton和inet_ntop方法。
 
-    :return: None
+    :return: None。
     """
     if not hasattr(socket, 'inet_pton'):
         socket.inet_pton = inet_pton
@@ -183,6 +183,15 @@ ADDRTYPE_HOST = 3
 
 
 def pack_addr(address):
+    """
+    该函数主要是ip地址或者域名地址转为网络传输中的字节码对象。
+
+    :param address:ip地址或者域名。
+
+    :return: ip地址或者域名地址在网络传输中的字节码对象
+    """
+
+    # 把bytes对象的地址转为字符串是因为socket.inet_pton的地址参数为字符串类型
     address_str = to_str(address)
     for family in (socket.AF_INET, socket.AF_INET6):
         try:
@@ -199,6 +208,13 @@ def pack_addr(address):
 
 
 def parse_header(data):
+    """
+    该函数主要是解析ip数据包的头部并返回ip数据包类型， 目的地址， 目的端口， 数据包头部长度。
+
+    :param data: ip数据包。ip数据包的类型包括了ipv4,ipv6和域名。
+
+    :return: （ip数据包类型， 目的地址， 目的端口， 数据包头部长度）。
+    """
     addrtype = ord(data[0])
     dest_addr = None
     dest_port = None
@@ -238,9 +254,17 @@ def parse_header(data):
 
 
 class IPNetwork(object):
+    """
+    该类主要的功能是保存网络列表,该网络列表主要是储存网络网段。
+    """
     ADDRLENGTH = {socket.AF_INET: 32, socket.AF_INET6: 128, False: 0}
 
     def __init__(self, addrs):
+        """
+        接受多个ip地址组成的字符串来初始化IPNetwork的网络列表。
+
+        :param addrs: 多个ip地址组成的字符串。这里的ip地址包含了ipv4和ipv6。
+        """
         self._network_list_v4 = []
         self._network_list_v6 = []
         if type(addrs) == str:
@@ -248,36 +272,57 @@ class IPNetwork(object):
         list(map(self.add_network, addrs))
 
     def add_network(self, addr):
+        """
+        该函数主要是从ip地址中提取出网段。
+
+        :param addr: 一个包含ip地址的字符串。
+
+        :return: None。
+        """
         if addr is "":
             return
         block = addr.split('/')
         addr_family = is_ip(block[0])
         addr_len = IPNetwork.ADDRLENGTH[addr_family]
         if addr_family is socket.AF_INET:
+            # 把ipv4地址的字节码对象转为一个高位编址的整数
+            # “!I”中，“!”代表网络编址，即高位编址；“I”代表unsigned int
             ip, = struct.unpack("!I", socket.inet_aton(block[0]))
         elif addr_family is socket.AF_INET6:
+            # “！QQ”中， “Q”代表unsigned long long
             hi, lo = struct.unpack("!QQ", inet_pton(addr_family, block[0]))
             ip = (hi << 64) | lo
         else:
             raise Exception("Not a valid CIDR notation: %s" % addr)
-        if len(block) is 1:
+
+        # 判断掩码长度
+        if len(block) is 1: # 若没有指明掩码长度，则默认为32或者128
             prefix_size = 0
             while (ip & 1) == 0 and ip is not 0:
                 ip >>= 1
                 prefix_size += 1
             logging.warn("You did't specify CIDR routing prefix size for %s, "
                          "implicit treated as %s/%d" % (addr, addr, addr_len))
-        elif block[1].isdigit() and int(block[1]) <= addr_len:
+        elif block[1].isdigit() and int(block[1]) <= addr_len: # 若掩码长度给出了，直接得出ip网段
             prefix_size = addr_len - int(block[1])
             ip >>= prefix_size
         else:
             raise Exception("Not a valid CIDR notation: %s" % addr)
+
+        # 注意的是这里储存的ip是用整数表示
         if addr_family is socket.AF_INET:
             self._network_list_v4.append((ip, prefix_size))
         else:
             self._network_list_v6.append((ip, prefix_size))
 
     def __contains__(self, addr):
+        """
+        判断ip地址是否在属于在IPNetwork里面的某个网段中。
+
+        :param addr: ip地址。可以是ipv4或者是ipv6。
+
+        :return: 若在IPNetwork储存的某个网段中，则返回True。反之，返回False。
+        """
         addr_family = is_ip(addr)
         if addr_family is socket.AF_INET:
             ip, = struct.unpack("!I", socket.inet_aton(addr))
@@ -293,6 +338,9 @@ class IPNetwork(object):
 
 
 def test_inet_conv():
+    # 测试是否可以inet_ntop和inet_pton互相转化
+    # inet_pton是把ip地址的字节码对象，转为网络传输中的字节码
+    # inet_ntop则与inet_pton相反
     ipv4 = b'8.8.4.4'
     b = inet_pton(socket.AF_INET, ipv4)
     assert inet_ntop(socket.AF_INET, b) == ipv4
@@ -302,6 +350,7 @@ def test_inet_conv():
 
 
 def test_parse_header():
+    # 测试是否可以
     assert parse_header(b'\x03\x0ewww.google.com\x00\x50') == \
         (3, b'www.google.com', 80, 18)
     assert parse_header(b'\x01\x08\x08\x08\x08\x00\x35') == \
